@@ -1,10 +1,7 @@
 overwrite: true
-schema: "https://rickandmortyapi.com/graphql"
-documents: "src/graphql/**/*.ts"
+schema: "https://api-sa-east-1.hygraph.com/v2/cla9ttszs2bp501umbpabh74s/master"
+documents: "scr/graphql/queries.ts"
 generates:
-  src/graphql/generated/graphql.ts:
-    plugins:
-      - "typescript"
-      - "typescript-operations"
-      - add:
-          content: '/* eslint-disable */'
+  src/graphql/generated/:
+    preset: "client"
+    plugins: []

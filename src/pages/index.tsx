@@ -1,22 +1,19 @@
-import Home, { HomeProps } from 'templates/Home'
-
+import { MapProps } from 'components/Map'
 import client from 'graphql/client'
-import { GetCharactersQuery } from 'graphql/generated/graphql'
-import { GET_CHARACTERS } from 'graphql/queries'
-
-export default function Index({ characters }: HomeProps) {
-  return <Home characters={characters} />
+import { GET_PLACES } from 'graphql/queries'
+import HomeTemplate from 'templates/Home'
+import { GetPlacesQuery } from 'graphql/generated/graphql'
+export default function Home({ places }: MapProps) {
+  return <HomeTemplate places={places} />
 }
 
 export const getStaticProps = async () => {
-  const { characters } = await client.request<GetCharactersQuery>(
-    GET_CHARACTERS
-  )
+  const { places } = await client.request<GetPlacesQuery>(GET_PLACES)
 
   return {
-    revalidate: 60,
+    revalidate: 36000,
     props: {
-      characters: characters?.results
+      places
     }
   }
 }

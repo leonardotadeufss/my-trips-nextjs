@@ -1,22 +1,38 @@
-import Avatar from 'components/Avatar'
-import { Character } from 'graphql/generated/graphql'
+import LinkWrapper from 'components/LinkWrapper'
+import dynamic from 'next/dynamic'
+import { InfoOutline } from '@styled-icons/evaicons-outline/InfoOutline'
+import { MapProps } from 'components/Map'
+import { NextSeo } from 'next-seo'
 
-import * as S from './styles'
+const Map = dynamic(() => import('components/Map'), { ssr: false })
 
-export type HomeProps = {
-  characters?: Pick<Character, 'name' | 'image'>[]
+export default function HomeTemplate({ places }: MapProps) {
+  return (
+    <>
+      <NextSeo
+        title="My Trips"
+        description="A simple project to show in a map the places that I went and show more informations and photos when clicked."
+        canonical="https://my-trips.willianjusten.com.br"
+        openGraph={{
+          url: 'https://my-trips.willianjusten.com.br',
+          title: 'My Trips',
+          description:
+            'A simple project to show in a map the places that I went and show more informations and photos when clicked.',
+          images: [
+            {
+              url: 'https://my-trips.willianjusten.com.br/img/cover.png',
+              width: 1280,
+              height: 720,
+              alt: 'My Trips'
+            }
+          ],
+          site_name: 'My Trips'
+        }}
+      />
+      <LinkWrapper href="about">
+        <InfoOutline size={32} aria-label="About" />
+      </LinkWrapper>
+      <Map places={places} />
+    </>
+  )
 }
-
-const Home = ({ characters }: HomeProps) => (
-  <S.Main>
-    <S.Title>Rick and Morty Characters</S.Title>
-
-    <S.Grid>
-      {characters?.map(({ name, image }) => (
-        <Avatar key={name} name={name} image={image} />
-      ))}
-    </S.Grid>
-  </S.Main>
-)
-
-export default Home
